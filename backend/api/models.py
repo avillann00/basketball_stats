@@ -1,0 +1,52 @@
+from django.db import models
+
+class Team(models.Model):
+    team_id = models.IntegerField(primary_key=True)
+    team_name = models.CharField(max_length=225)
+    team_city = models.CharField(max_length=225)
+    team_conference = models.CharField(max_length=225)
+    team_division = models.CharField(max_length=225)
+
+class Game(models.Model):
+    game_id = models.IntegerField(primary_key=True)
+    home = models.ForeignKey(Team, null=True, on_delete=models.SET_NULL, related_name='home_team')
+    away = models.ForeignKey(Team, null=True, on_delete=models.SET_NULL, related_name='away_team')
+    home_score = models.IntegerField()
+    away_score = models.IntegerField()
+    date = models.DateField()
+    season = models.IntegerField()
+    post_season = models.BooleanField()
+
+class Player(models.Model):
+    player_id = models.IntegerField(primary_key=True)
+    first_name = models.CharField(max_length=225)
+    last_name = models.CharField(max_length=225)
+    player_number = models.IntegerField()
+    player_height = models.CharField(max_length=225)
+    player_weight = models.IntegerField()
+    seasons = models.IntegerField()
+    position = models.CharField(max_length=225)
+    year_started = models.IntegerField()
+    draft_year = models.IntegerField()
+    draft_pick = models.IntegerField()
+    team = models.ForeignKey(Team, null=True, on_delete=models.SET_NULL)
+
+class Stat(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    minutes = models.IntegerField()
+    points = models.IntegerField()
+    offensive_rebounds = models.IntegerField()
+    defensive_rebounds = models.IntegerField()
+    assists = models.IntegerField()
+    steals = models.IntegerField()
+    blocks = models.IntegerField()
+    fgm = models.IntegerField()
+    fga = models.IntegerField()
+    tpm = models.IntegerField()
+    tpa = models.IntegerField()
+    ftm = models.IntegerField()
+    fta = models.IntegerField()
+    turnovers = models.IntegerField()
+    fouls = models.IntegerField()
+    game = models.ForeignKey(Game, null=True, on_delete=models.SET_NULL)
+    player = models.ForeignKey(Player, null=True, on_delete=models.SET_NULL)
