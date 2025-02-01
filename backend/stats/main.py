@@ -46,15 +46,22 @@ def get_player_stats(first_name, last_name, season):
 
     return response
 
-def get_team_games(team_name, seasons):
+def get_teams():
     api = BalldontlieAPI(api_key=str(os.environ.get('NBA_API_KEY')))
     teams = api.nba.teams.list()
+
+    return teams
+
+def get_team_games(team_name, seasons):
+    teams = get_teams()
     
     for team in teams.data:
         if team.full_name == team_name:
             id = team.id
 
+            api = BalldontlieAPI(api_key=str(os.environ.get('NBA_API_KEY')))
             games = api.nba.games.list(team_ids=[id], seasons=seasons)
+
             return games.data
 
     return None
