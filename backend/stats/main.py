@@ -23,45 +23,44 @@ def get_api_url(endpoint, **kwargs):
     else: 
         raise ValueError('Invalid Endpoint')
 
-def get_player_id(first_name, last_name):
+def get_player(first_name, last_name):
     url = get_api_url('player', first_name=first_name, last_name=last_name)
     response = requests.get(url, headers=headers).json()
 
     player = next((player for player in response if player['firstName'] == first_name and player['lastName'] == last_name), None)
 
+    return player
+
+def get_player_stats(first_name, last_name, season): # eg. season = '2023-24'
+    player = get_player(first_name, last_name)
     if player:
         player_id = player['personId']
-        
-        return player_id
-    else:
-        return None
+        url = get_api_url('player_stats', player_id=player_id, season=season)
 
-def get_player_stats(first_name, last_name, season):
-    player_id = get_player_id(first_name, last_name)
-    url = get_api_url('player_stats', player_id=player_id, season=season)
+        time.sleep(30)
 
-    time.sleep(30)
+        response = requests.get(url, headers=headers).json()
 
-    response = requests.get(url, headers=headers).json()
+        return response
 
-    return response
-
-def get_teams():
+def get_team(team_name):
     api = BalldontlieAPI(api_key=str(os.environ.get('NBA_API_KEY')))
     teams = api.nba.teams.list()
 
-    return teams
-
-def get_team_games(team_name, seasons):
-    teams = get_teams()
-    
     for team in teams.data:
-        if team.full_name == team_name:
-            id = team.id
+            if team.full_name == team_name:
 
-            api = BalldontlieAPI(api_key=str(os.environ.get('NBA_API_KEY')))
-            games = api.nba.games.list(team_ids=[id], seasons=seasons)
+                return team
 
-            return games.data
+def get_team_games(team_name, seasons, date): # e.g. seasons = [2023-24]
+    team = get_team(team_name)
+    
+    if team:
+        team_id = team.id
+        api = BalldontlieAPI(api_key=str(os.environ.get('NBA_API_KEY')))
+        if date is None:
+            games = api.nba.games.list(team_ids=[team_id], seasons=seasons, per_page=100)
+        else:
+            games = api.nba.games.list(team_ids=[team_id], seasons=seasons, per_page=100, dates=[date])
 
-    return None
+        return games.data
