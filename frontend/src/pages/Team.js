@@ -15,10 +15,10 @@ function Team() {
       return
     }
 
-    const apiUrl = process.env.REACT_APP_API_URL || 'https://localhost:8000'
+    const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000'
     axios.get(`${apiUrl}/api/team/${city}/${team}`, {
       headers: {
-        'Authorization': `Bearer ${authTokens}`
+        'Authorization': `Bearer ${authTokens.access}`
       }
     })
     .then(response => setData(response.data))
@@ -26,26 +26,30 @@ function Team() {
   }, [authTokens, city, team])
 
   const goToGames = () => {
-    naviage(`/games/${data.team_id}`)
+    naviage(`/games/${data.team_id}`, { state: { city, team } })
     return
   }
 
   if(!data){
     return (
-      <h1>No Team Data Found</h1>
-      <button onClick={() => navigate('/search')}>Go Back</button>
+      <div>
+        <h1>No Team Data Found</h1>
+        <button onClick={() => navigate('/search')}>Go Back</button>
+      <div>
     )
   }
 
   return (
-    <h1>Team Page</h1>
-    <h1>City: {data.team_city}</h1>
-    <h1>Name: {data.team_name}</h1>
-    <h1>Conference: {data.team_conference}</h1>
-    <h1>Division: {data.team_division}</h1>
+    <div>
+      <h1>Team Page</h1>
+      <h1>City: {data.team_city}</h1>
+      <h1>Name: {data.team_name}</h1>
+      <h1>Conference: {data.team_conference}</h1>
+      <h1>Division: {data.team_division}</h1>
 
-    <button onClick={goToGames}>Go To Team Games</button>
-    <button onClick={() => navigate('/search')>Go Back</button>
+      <button onClick={goToGames}>Go To Team Games</button>
+      <button onClick={() => navigate('/search')>Go Back</button>
+    </div>
   )
 }
 
