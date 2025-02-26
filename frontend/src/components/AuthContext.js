@@ -31,8 +31,9 @@ export const AuthProvider = ({ children }) => {
     const refreshToken = authTokens?.refresh;
     if (!refreshToken) return;
 
-    try {
-      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/token/refresh/`, { refresh: refreshToken });
+    try {      
+      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000'
+      const response = await axios.post(`${apiUrl}/api/token/refresh/`, { refresh: refreshToken });
       setAuthTokens(response.data);
       localStorage.setItem('authTokens', JSON.stringify(response.data));
     } catch (error) {

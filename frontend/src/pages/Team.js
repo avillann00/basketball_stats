@@ -23,10 +23,10 @@ function Team() {
     })
     .then(response => setData(response.data))
     .catch(error => console.error('Error occurred getting team', error))
-  }, [authTokens, city, team])
+  }, [authTokens, city, team, navigate])
 
   const goToGames = () => {
-    naviage(`/games/${data.team_id}`, { state: { city, team } })
+    navigate(`/games/${data.team_id}`, { state: { city, team } })
     return
   }
 
@@ -34,8 +34,9 @@ function Team() {
     return (
       <div>
         <h1>No Team Data Found</h1>
+        <h1>It May Be Loading Wait A Couple Minutes</h1>
         <button onClick={() => navigate('/search')}>Go Back</button>
-      <div>
+      </div>
     )
   }
 
@@ -48,9 +49,9 @@ function Team() {
       <h1>Division: {data.team_division}</h1>
 
       <button onClick={goToGames}>Go To Team Games</button>
-      <button onClick={() => navigate('/search')>Go Back</button>
+      <button onClick={() => navigate('/search')}>Go Back</button>
     </div>
   )
 }
 
-export defualt Team
+export default Team

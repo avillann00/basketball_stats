@@ -25,10 +25,10 @@ function Player() {
     .catch(error => console.error('Error occurred getting player: ', error))
 
 
-  }, [authTokens, first, last])
+  }, [authTokens, first, last, navigate])
 
   const goToStats = () => {
-    naviage(`/stats/${data.player_id}`, { state: { first, last } })
+    navigate(`/stats/${data.player_id}`, { state: { first, last } })
     return
   }
 
@@ -36,6 +36,7 @@ function Player() {
     return (
       <div>
         <h1>No Player Data Found</h1>
+        <h1>It May Be Loading Wait A Couple Minutes</h1>
         <button onClick={() => navigate('/search')}>Go Back</button>
       </div>
     )
@@ -47,16 +48,15 @@ function Player() {
       <h1>First Name: {data.first_name}</h1> 
       <h1>Last Name: {data.last_name}</h1> 
       <h1>Number: {data.player_number}</h1> 
-      <h1>Weight: {data.weight}</h1> 
-      <h1>Height: {data.height}</h1> 
+      <h1>Weight: {data.player_weight}</h1> 
+      <h1>Height: {data.player_height}</h1> 
       <h1>Seasons Played: {data.seasons}</h1> 
       <h1>Position: {data.position}</h1> 
       <h1>Year Started: {data.year_started}</h1> 
       <h1>Draft Year: {data.draft_year}</h1> 
       <h1>Draft Pick: {data.draft_pick}</h1> 
-      <h1>Team Name: {data.team.team_city} {data.team.team_name}</h1> 
 
-      <button onClick={goToStats}}>Go To Player Stats</button>
+      <button onClick={goToStats}>Go To Player Stats</button>
       <button onClick={() => navigate('/search')}>Go Back</button>
     </div>
   )

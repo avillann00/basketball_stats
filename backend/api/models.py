@@ -1,14 +1,16 @@
 from django.db import models
 
 class Team(models.Model):
-    team_id = models.IntegerField(primary_key=True)
+    id = models.BigAutoField(primary_key=True)
+    team_id = models.IntegerField()
     team_name = models.CharField(max_length=225)
     team_city = models.CharField(max_length=225)
     team_conference = models.CharField(max_length=225)
     team_division = models.CharField(max_length=225)
 
 class Game(models.Model):
-    game_id = models.IntegerField(primary_key=True)
+    id = models.BigAutoField(primary_key=True)
+    game_id = models.IntegerField()
     home = models.ForeignKey(Team, null=True, on_delete=models.SET_NULL, related_name='home_team')
     away = models.ForeignKey(Team, null=True, on_delete=models.SET_NULL, related_name='away_team')
     home_score = models.IntegerField()
@@ -18,7 +20,8 @@ class Game(models.Model):
     post_season = models.BooleanField()
 
 class Player(models.Model):
-    player_id = models.IntegerField(primary_key=True)
+    id = models.BigAutoField(primary_key=True)
+    player_id = models.IntegerField()
     first_name = models.CharField(max_length=225)
     last_name = models.CharField(max_length=225)
     player_number = models.IntegerField()

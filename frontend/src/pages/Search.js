@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react'
+import React, { useState, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import AuthContext from '../components/AuthContext'
 
@@ -6,6 +6,7 @@ function Search() {
   const [input, setInput] = useState('')
   const [type, setType] = useState('')
   const { authTokens } = useContext(AuthContext)
+  const navigate = useNavigate()
 
   const handleSubmit = () => {
     if(!authTokens){
@@ -13,17 +14,25 @@ function Search() {
       return
     }
     
-    const name = input.split(' ');
-    if(name.length < 2){
-      alert('Please Enter A Full Name')
+    if(input.length < 2){
+      alert('Please Enter A Complete Name')
+      return
+    }
+
+    const names = input.split(' ')
+    const first = names.slice(0, -1).join(' ')
+    const last = names[names.length - 1]
+
+    if(type === ''){
+      alert('Please Select A Search Type')
       return
     }
 
     if(type === 'player'){
-      navigate(`/player/${name[0]}/${name[1]}`)
+      navigate(`/player/${first}/${last}`)
     }
     else{
-      navigate(`/team/${name[0]}/${name[1]}`)
+      navigate(`/team/${first}/${last}`)
     }
   }
 

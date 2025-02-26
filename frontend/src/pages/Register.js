@@ -10,12 +10,12 @@ function Register() {
   const navigate = useNavigate()
 
   function goToLogin() {
-    navigate('login/')
+    navigate('/login')
   } 
 
   const handleSubmit = async (event) => {
     event.preventDefault()
-    if (!password1 === password2) {
+    if (password1 !== password2) {
       alert('Passwords Do Not Match!')
       return
     }
@@ -24,8 +24,9 @@ function Register() {
       await axios.post(`${apiUrl}/users/register/`, {
         username: username,
         email: email,
-        password: password
+        password: password1
       })
+      goToLogin()
     } 
     catch (error) {
       console.error('Error Registering User: ', error)
@@ -36,7 +37,7 @@ function Register() {
     <div>
       <h1>Hi, Welcome To The Register Page</h1>
       <h1>Enter Your Username, Email, And Password To Continue</h1>
-      <form>
+      <form onSubmit={handleSubmit}>
         <input
           type='text'
           placeholder='username'

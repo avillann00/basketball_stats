@@ -24,6 +24,8 @@ def get_api_url(endpoint, **kwargs):
         raise ValueError('Invalid Endpoint')
 
 def get_player(first_name, last_name):
+    time.sleep(30)
+
     url = get_api_url('player', first_name=first_name, last_name=last_name)
     response = requests.get(url, headers=headers).json()
 
@@ -43,17 +45,20 @@ def get_player_stats(first_name, last_name, season): # eg. season = '2023-24'
 
         return response
 
-def get_team(team_name):
+def get_team(team_city, team_name):
+    full_name = team_city + ' ' + team_name
     api = BalldontlieAPI(api_key=str(os.environ.get('NBA_API_KEY')))
     teams = api.nba.teams.list()
 
     for team in teams.data:
-            if team.full_name == team_name:
+            if team.full_name == full_name:
 
                 return team
 
-def get_team_games(team_name, seasons, date): # e.g. seasons = [2023-24]
-    team = get_team(team_name)
+def get_team_games(team_city, team_name, seasons, date): # e.g. seasons = [2023-24]
+    time.sleep(5)
+
+    team = get_team(team_city, team_name)
     
     if team:
         team_id = team.id

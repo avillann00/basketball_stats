@@ -9,7 +9,7 @@ function Login() {
   const { loginUser } = useContext(AuthContext);
 
   function goToRegister() {
-    navigate('register/')
+    navigate('/register')
   }
 
   const handleSubmit = async (event) => {
@@ -30,12 +30,12 @@ function Login() {
           onChange={(e) => setUsername(e.target.value)}
         />
         <input
-          type='text'
+          type='password'
           placeholder='password'
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button type='Submit'>Login</button>
+        <button type='submit'>Login</button>
       </form>
       <button onClick={goToRegister}>Need An Account?</button>
     </div>

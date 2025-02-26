@@ -16,23 +16,9 @@ function App() {
     <AuthProvider> 
       <BrowserRouter>
         <Routes>
-          <Route path='*' element={<NotFound />} />
-          <Route
-            path='/login'
-            element={
-              <ProtectedRoute>
-                <Login />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path='/register'
-            element={
-              <ProtectedRoute>
-                <Register />
-              </ProtectedRoute>
-            }
-          />
+          <Route path='*' element={ <NotFound /> } />
+          <Route path='/login' element={ <Login /> } />
+          <Route path='/register' element={ <Register /> } />
           <Route
             path='/'
             element={
@@ -66,7 +52,7 @@ function App() {
             }
           />
           <Route
-            path='stats/:id'
+            path='/stats/:id'
             element={
               <ProtectedRoute>
                 <Stats />
@@ -74,7 +60,7 @@ function App() {
             }
           />
           <Route
-            path='games/:id'
+            path='/games/:id'
             element={
               <ProtectedRoute>
                 <Games />
