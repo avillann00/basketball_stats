@@ -29,6 +29,9 @@ def get_player(first_name, last_name):
     url = get_api_url('player', first_name=first_name, last_name=last_name)
     response = requests.get(url, headers=headers).json()
 
+    if not isinstance(response, list):
+        print(f'Unexpected player api response for {first_name} {last_name}: {response}')
+        return None
     player = next((player for player in response if player['firstName'] == first_name and player['lastName'] == last_name), None)
 
     return player
